@@ -1,0 +1,23 @@
+{
+    "label" : "lock",
+    "action" : "swaylock",
+    "text" : "Lock"
+}
+
+{
+    "label" : "logout",
+    "action" : "swaymsg exit",
+    "text" : "Logout"
+}
+
+{
+    "label" : "shutdown",
+    "action" : "loginctl poweroff",
+    "text" : "Shutdown"
+}
+
+{
+    "label" : "reboot",
+    "action" : "loginctl reboot",
+    "text" : "Reboot"
+}

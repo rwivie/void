@@ -1,0 +1,133 @@
+#=============
+#==== aliases
+#=============
+
+#==== void specific
+alias upg='sudo xbps-install -Su'
+alias inst='sudo xbps-install'
+alias rem="sudo xbps-remove -R"
+alias pkglist="xpkg > `date +%Y-%m-%d_%H:%M:%S`_pkglist.txt"
+alias pkgsort="xilog | grep -f <(xbps-query -m) > `date +%Y-%m-%d_%H:%M:%S`_pkglist_sorted.txt"
+alias serv='sudo sv status /var/service/*'
+alias syslog='sudo svlogtail | clog'
+alias trimlog='cat /var/log/socklog/daemon/current | grep fstrim:'
+alias search="xbps-query -Rs" # search for pkg
+alias xdep="xbps-query -x" # show dependencies
+alias xrevdep="xbps-query -X" # show reverse dependencies
+alias xlist="xbps-query -l" # list registered packages, ii=installed, uu=unpacked but needs reconfigured with xbps-reconfigure, hr=half removed, ??=state unknown
+alias xhold="xbps-query -H" # list hold packages
+alias xman="xbps-query -m" # list manual packages
+alias xorph="xbps-query -O" # list orphans
+alias remorph="sudo xbps-remove -o" # remove orphans
+alias xowned="xbps-query -o" # search for installed package files by matching pattern
+alias xinfo="xbps-query -S" # shows information of an installed package
+alias xfiles="xbps-query -f" # show the package files for package
+alias xshowdep="xbps-query -x" # show the required deps for package. only direct dependencies listed
+alias xshowdepsall="xbps-query -x --fulldeptree" # show full dependency tree
+alias vkpurgeall="sudo vkpurge rm all"
+alias pkgman="sudo xbps-pkgdb -m manual" # mark a package as installed manually(will not be removed as an orphan)
+alias pkgauto="sudo xbps-pkgdb -m auto" # mark a package as automatic(will be removed as orphan)
+
+#==== tail logs
+#alias xtail="tail -f ~/.xsession-errors | clog"
+alias xtail="grc tail -f ~/.xsession-errors"
+#alias xorgtail="tail -f ~/.local/share/xorg/Xorg.0.log | ts"
+#alias xorgtail="tail -f /var/log/Xorg.0.log | clog"
+alias xorgtail="grc tail -f /var/log/Xorg.0.log"
+alias everlog="grc tail -f /var/log/socklog/everything/current"
+alias hyprlog="grc tail -f ~/.hypr.log"
+alias swaylog="grc tail -f ~/.sway.log"
+alias dwmlog="grc tail -f ~/.dwm.log"
+
+#==== start gnome on wayland
+alias gnoway="XDG_SESSION_TYPE=wayland dbus-run-session gnome-session"
+
+#==== for git dotfiles
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+#==== for xorg
+alias started="nano ~/.xinitrc"
+alias startx="startx 2> ~/.xsession-errors"
+alias killx="killall -u ron"
+alias xpropall="sleep 5 && xwininfo -all -root" #==== get all open windows,etc properties
+
+#==== for sway
+alias swayprop="swaymsg -p -t get_tree | grep app_id"
+alias swayxprop="swaymsg -p -t get_tree | grep class"
+alias swaypropsel="sleep 5 && swaymsg -t get_tree | jq -r '..|try select(.focused == true)'"
+alias swaynames="sleep 10 && swaymsg -r -t get_outputs"
+alias swaylayers="sleep 10 && swaymsg -r -t get_outputs | jq '.[0].layer_shell_surfaces | .[] | .namespace'"
+alias sway="dbus-run-session sway 2> ~/.sway.log"
+#alias swaypicker="grim -g "$(slurp -p)" -t ppm - | convert - -format '%[pixel:p{0,0}]' txt:-"
+alias swaypick="wl-color-picker"
+
+#==== for hyprland
+alias hyprprop="hyprctl clients"
+
+#==== for wayfire
+#alias wf="dbus-launch --sh-syntax --exit-with-session wayfire 2>&1 | tee ~/.wayfire.log"
+#alias wf="dbus-run-session wayfire 2>&1 | tee ~/.wayfire.log"
+alias wf="wayfire_start.sh"
+
+#==== for swaync
+alias sncrs="swaync-client -rs" # reload style
+alias sncr="swaync-client -R" # reload config
+
+#==== for labwc
+alias lab="dbus-run-session labwc 2>&1 | tee ~/.lab.log"
+
+#==== get windows coords
+#alias xpos="xwininfo -id $(xdotool getactivewindow)"
+
+#==== get mouse buttons
+alias mouse="xev -event button | grep button"
+
+#==== for dwm 
+alias downvol="i3-volume -nPp down 5"
+alias upvol="i3-volume -nPp up 5"
+alias mutevol="i3-volume -nPp mute -n"
+
+#==== misc aliases
+alias ls='ls -aF --color=auto'
+alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+alias wioff="nmcli r wifi off"
+alias wion="nmcli r wifi on"
+alias nethogs="sudo nethogs wlp6s0"
+alias nethogs-eth="sudo nethogs enp7s0"
+alias iftop="sudo iftop -i wlp6s0"
+alias iftop-eth="sudo iftop -i enp7s0"
+alias sued="sudo -i nano"
+alias open="echo exit | strace bash -li |& grep '^open'" #see what bash opens at login
+#alias blue="sudo systemctl restart bluetooth"
+alias blue="sudo sv restart bluetoothd"
+alias icat="kitty +kitten icat"
+alias brokesym="find / -xtype l -print"
+alias dunstoff="killall -SIGUSR1 dunst"
+alias dunston="killall -SIGUSR2 dunst"
+alias duhist="dunstctl history-pop"
+#alias GPU_TEMP=`inxi -s | grep "System" | awk {'print $8, $9, $10, $11, $12'}`
+#alias CPU_TEMP=`inxi -s | grep "System" | awk {'print $3, $4, $5'}`
+alias env="printenv" # show environment variables
+alias dots="xdpyinfo | grep dots" # or use xrdb -query | grep dpi
+alias mpvart="mpv --x11-name=albumart" # ex mpv --x11-name=albumart /path/to/media
+alias clock="tty-clock -sSctB -C 6"
+alias obxprop='xprop | grep "^_OB_APP"'
+alias inxi="inxi -Fxxz"
+#alias GPU_TEMP=`inxi -s | grep "System" | awk {'print $8, $9, $10, $11, $12'}`
+#alias CPU_TEMP=`inxi -s | grep "System" | awk {'print $3, $4, $5'}`
+alias scrot_th="scrot -t 20 -d 5 -c $HOME/Pictures/ScreenShots/`date +%Y-%m-%d_%H:%M:%S`.png"
+alias wttr="curl -s 'wttr.in/Coleman?u'"
+alias grabtty="sudo setterm -dump 1 -file screen.dump"
+alias neo="neofetch --config ~/.config/neofetch/heisenberg/config.conf"
+alias su="su -l"
+alias bt="kitty btop"
+alias nfetch4="neofetch --config /home/ron/.config/neofetch/void.conf --ascii '$(fortune chucknorris | cowsay -W 30)'"
+alias ffetch="fastfetch --logo ~/.config/fastfetch/void.png"
+alias wifinfo="nmcli dev wifi"
+alias watchwifi="watch -n 1 cat /proc/net/wireless"
+#alias nvim='nvr --remote-silent'
+alias ls="lsd"
+alias fzfp="fzf --preview 'bat --color=always {}' --preview-window '~3' --tmux center | xargs -r xdg-open"
+alias fzf="fzf --preview 'fzf-preview.sh {}'"
+alias cow="fortune chucknorris | cowsay -W 30 | lolcat"
+alias ven='sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"'

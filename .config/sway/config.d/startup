@@ -1,0 +1,11 @@
+exec /usr/libexec/polkit-gnome-authentication-agent-1
+exec dunst -conf ~/.config/dunst/dunstrc_sway
+exec nm-applet --indicator
+exec blueman-applet
+exec pipewire 
+exec autotiling
+exec swayidle timeout 900 swaylock timeout 930 'swaymsg "output * power off"' resume 'swaymsg "output * power on"'
+exec mpdris2-rs
+exec sleep 10 && mpd
+exec thunderbird
+exec valent

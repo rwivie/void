@@ -1,0 +1,269 @@
+// Global 
+// based on https://github.com/NorNub/HyprDots
+
+{
+  "layer": "top",
+  "modules-left": ["custom/launcher", "sway/workspaces", "sway/window", "sway/mode"],
+  "modules-center": ["custom/wttrbar", "clock", "custom/xbps"],
+  "modules-right": ["memory", "cpu", "mpd", "pulseaudio", "custom/headset", "tray", "group/power"],
+
+    // Modules
+
+    "custom/launcher": {
+        "format":" ",
+        "on-click": "exec nwg-menu -va top -cmd-lock swaylock -cmd-logout swaymsg exit -cmd-restart loginctl reboot -cmd-shutdown loginctl -i poweroff -term foot",
+        "tooltip": false,
+    },
+
+  "gamemode": {
+    "format": "{glyph} {count}",
+    "glyph": "󰊴",
+    "hide-not-running": true,
+    "use-icon": true,
+    "icon-name": "input-gaming-symbolic",
+    "icon-spacing": 4,
+    "icon-size": 20,
+    "tooltip": true,
+    "tooltip-format": "Games running: {count}"
+  },
+
+    "sway/workspaces": {
+        "disable-scroll": false,
+        "disable-markup" : false,
+        "all-outputs": true,
+        "format": "  {icon}  ",
+        "format-icons": {
+            "1": "1: ",
+            "2": "2: ",
+            "3": "3: ",
+            "4": "4: ",
+            "5": "5: ",
+            "6": "6: ",
+            "7": "7: ",
+            "8": "8: ",
+            "9": "9: ",
+            "10": "10: ",
+            "11": "11: ",
+        }
+    },
+
+    "sway/mode": {
+        "format": "{}",
+        "tooltip": false
+    },
+
+    "sway/window": {
+	"format": "{}",
+    },
+
+    "custom/weather": {
+        "format": "{}",
+        "tooltip": true,
+        "interval": 3600,
+        "exec": "~/.config/waybar/scripts/weather.py -l coleman -u F -w M",
+        "return-type": "json"
+    },
+
+//  wttrbar from https://github.com/bjesus/wttrbar
+    "custom/wttrbar": {
+        "format": "{} °",
+        "tooltip": true,
+        "interval": 3600,
+        "exec": "wttrbar --date-format '%m/%d' --location Coleman --fahrenheit --main-indicator temp_F --ampm --hide-conditions",
+        "return-type": "json"
+    },
+
+    "custom/line": {
+        "format": " | ",
+        "tooltip": false,
+    },
+
+    "clock": {
+        "format": "{:%I:%M}",
+        "format-alt": "{:%A, %B %d, %Y (%R)}  ",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+//        "on-click-middle": "st -g 100x25+1700+21 -c calcurse -e calcurse",
+	"on-click-middle": "foot --window-size-pixels=800x400 --app-id calcurse calcurse",
+        "calendar": {
+                    "mode"          : "year",
+                    "mode-mon-col"  : 3,
+                    "weeks-pos"     : "right",
+                    "on-scroll"     : 1,
+		    "on-click-middle": "gsimplecal",
+                    "on-click-right": "mode",
+                    "format": {
+                              "months":     "<span color='#ebcb8b'><b>{}</b></span>",
+                              "days":       "<span color='#b48ead'><b>{}</b></span>",
+                              "weeks":      "<span color='#a3be8c'><b>W{}</b></span>",
+                              "weekdays":   "<span color='#d08770'><b>{}</b></span>",
+                              "today":      "<span color='#bf616a'><b><u>{}</u></b></span>"
+                              }
+                    },
+        "actions":  {
+                    "on-click-right": "mode",
+                    "on-click-forward": "tz_up",
+                    "on-click-backward": "tz_down",
+                    "on-scroll-up": "shift_up",
+                    "on-scroll-down": "shift_down"
+                    }
+    },
+
+    "custom/line2": {
+        "format": " | ",
+        "tooltip": false,
+    },
+
+    "custom/xbps": {
+        "format": "{} ",
+        "interval": 3600,
+        "exec": "~/.local/bin/updates-xbps.sh",
+        "exec-if": "exit 0",
+        "on-click": "foot sh -c 'upg; echo Done - Press enter to exit; read'; pkill -SIGRTMIN+8 waybar",
+        "signal": 8,
+        "tooltip": false,
+    },
+
+  "tray": {
+    "spacing": 10
+  },
+  "pulseaudio": {
+    "format": "{volume}% {icon}",
+    "format-bluetooth": "{volume}% {icon}",
+    "format-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "󰂑",
+      "headset": "󰂑",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", ""]
+    },
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "ignored-sinks": ["Easy Effects Sink"]
+  },
+//  "clock": {
+//    "format": "{:%A %H:%M} ",
+//    "tooltip-format": "<tt>{calendar}</tt>"
+//  }
+
+"custom/headset": {
+     "format": " {icon}",
+     "return-type": "json",
+     "exec": "$HOME/.config/waybar/scripts/supower.py --model 'JBL T450BT'",
+     "interval": 5,
+     "format-icons": ["", "", "", "", ""]
+    },
+
+      "mpd": {
+        "interval": 2,
+        "unknown-tag": "",
+
+        "format": "{stateIcon} {artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ",
+        "format-disconnected": " Disconnected",
+        "format-paused": "{stateIcon} {artist} - {title}",
+        "format-stopped": "Stopped ",
+        "state-icons": {
+            "paused": "",
+            "playing": "",
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)",
+		// Commands to execute on events
+        "on-click": "mpc toggle",
+        "on-click-middle": "mpc prev",
+        "on-click-right": "mpc next",
+        "on-update": "",
+        "on-scroll-up": "mpc seek +00:00:01",
+        "on-scroll-down": "mpc seek -00:00:01",
+        "smooth-scrolling-threshold": 1,
+    },
+
+    "memory": {
+        "interval": 5,
+        "format": " {}%", // Icon: memory
+        //"on-click": "xfce4-terminal -e 'htop'", 
+        "on-click": "foot btop",
+        "states": {
+            "warning": 70,
+            "critical": 90
+        }
+    },
+
+    "cpu": {
+        "interval": 5,
+        "format": " {usage}% ({load})", // Icon: microchip
+        "states": {
+            "warning": 70,
+            "critical": 90,
+        },
+        "on-click": "foot 'htop'",
+    },
+
+    "custom/hyprpicker": {
+        //"format":" ",
+        "format":"",
+        //"on-click": "exec wofi -c ~/.config/wofi/config -I",
+        "on-click": "exec hyprpicker -a",
+        "tooltip": false,
+    },
+
+      "custom/power1": {
+          "format":"⏻",
+          "on-click": "exec wlogout -css $HOME/.config/wlogout/style.css -l $HOME/.config/wlogout/layout -b 5 -m 650 -c 50 -p layer-shell",
+          "tooltip": false,
+      },
+
+    //FOR POWER GROUP
+    "custom/arch": {
+        "format": "󰣇",
+        "tooltip": false,
+        "on-click": "wofi"
+    },
+    "custom/quit": {
+        "format": "󰍃",
+        "tooltip": false,
+        "on-click": "hyprctl dispatch exit"
+    },
+    "custom/lock": {
+        "format": "󰌾",
+        "tooltip": false,
+        "on-click": "gtklock"
+    },
+    "custom/reboot": {
+        "format": "󰜉",
+        "tooltip": false,
+        "on-click": "(sleep 10 && reboot) & (notify-send --urgency=critical --expire-time=20000 --wait 'System Reboot' 'The system will reboot in 10 seconds, click to cancel' && pkill sleep)",
+        "on-click-right": "reboot"
+    },
+    "custom/shutdown": {
+        "format": "󰐥",
+        "tooltip": false,
+        "on-click": "(sleep 10 && shutdown now) & (notify-send --urgency=critical --expire-time=20000 --wait 'System Shutdown' 'The system will shutdown in 10 seconds, click to cancel' && pkill sleep)",
+        "on-click-right": "shutdown now"
+    },
+    "custom/sleep": {
+        "format": "󰒲",
+        "tooltip": false,
+        "on-click": "systemctl suspend"
+    },
+
+    "group/power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/power1",
+            "custom/quit",
+            "custom/lock",
+            "custom/sleep",
+            "custom/reboot",
+            "custom/shutdown"
+        ]
+    }
+
+}
+

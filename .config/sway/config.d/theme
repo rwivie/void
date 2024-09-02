@@ -1,0 +1,66 @@
+#==== gaps
+smart_gaps off
+gaps inner 10
+gaps outer 5
+
+#==== border
+default_border pixel 4
+smart_borders off
+
+#==== Default Font
+font pango:JetBrainsMono Nerd Font 10
+
+#==== set cursor
+seat seat0 xcursor_theme XCursor-Pro-Nord-White 24
+
+#==== corners
+corner_radius 15
+smart_corner_radius on
+
+#==== shadows
+shadows on
+shadows_on_csd on
+shadow_blur_radius 6
+shadow_color #1e2326e6
+shadow_offset 0 0
+
+#==== blur
+blur on
+blur_xray on
+blur_radius 8
+blur_passes 3
+
+#==== layer effects    sleep 10 && swaymsg -r -t get_outputs
+layer_effects "notifications" blur enable; blur_ignore_transparent enable; shadows enable; corner_radius 0
+layer_effects "wofi" blur enable; blur_ignore_transparent enable; shadows enable; corner_radius 10
+layer_effects "rofi" blur enable; blur_ignore_transparent enable; shadows enable; corner_radius 0
+layer_effects "gtk-layer-shell" blur enable; blur_ignore_transparent enable; shadows enable; corner_radius 15
+
+#==== Dim unfocused windows 0.1
+#default_dim_inactive 0.3
+#dim_inactive_colors.unfocused #000000FF
+#dim_inactive_colors.urgent #900000FF
+
+#==== Set wallpaper:
+exec ~/.azotebg
+
+#==== Title format for windows
+for_window [shell="xdg_shell"] title_format "%title (%app_id)"
+for_window [shell="x_wayland"] title_format "%class - %title"
+
+#================
+#==== colors ====
+#================
+# class                 border  backgr. text    indicator child_border
+
+#==== nordic 
+## class                 border  backgr. text    indicator child_border
+client.focused          #2e3440 #2E3440 #ffffff #2e3440   #2e3440
+client.focused_inactive #2e3440 #2E3440 #cccccc #2e3440   #2e3440
+client.unfocused        #2e3440 #2e3440 #cccccc #2e3440   #2e3440
+client.urgent           #d08770 #2e3440 #ffffff #d08770   #d08770
+
+#==== Status Bar
+bar {
+    swaybar_command waybar
+}
