@@ -69,6 +69,16 @@ alias hyprprop="hyprctl clients"
 #alias wf="dbus-run-session wayfire 2>&1 | tee ~/.wayfire.log"
 alias wf="wayfire_start.sh"
 
+#==== for qtile wayland
+alias q="dbus-run-session qtile start -b wayland"
+
+#==== for dwl
+alias d="dbus-run-session dwl -s 'dwlstart.sh' 2>&1 | tee ~/.dwl.log"
+alias dwl2="dbus-run-session dwl > ~/.cache/dwltags"
+
+#==== for river
+alias r="riverstart.sh"
+
 #==== for swaync
 alias sncrs="swaync-client -rs" # reload style
 alias sncr="swaync-client -R" # reload config
@@ -81,6 +91,9 @@ alias lab="dbus-run-session labwc 2>&1 | tee ~/.lab.log"
 
 #==== get mouse buttons
 alias mouse="xev -event button | grep button"
+
+#==== wayland ruler
+alias ruler="slurp -d -b "1e1e2ebf" -c "cba6f7" -F "Iosevka NF" -w 1 -f "%w:%h""
 
 #==== for dwm 
 alias downvol="i3-volume -nPp down 5"

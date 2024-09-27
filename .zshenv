@@ -1,5 +1,5 @@
 typeset -U path PATH
-path=(~/.local/bin ~/.cargo/bin ~/.local/bin/statusbar ~/.local/bin/statusbar_ls /home/ron/.config/fzf-nova /home/ron/python_venv/bin /home/ron/.local/share/gem/ruby/3.3.0/bin $path)
+path=(~/.local/bin ~/.cargo/bin ~/.local/bin/statusbar ~/.local/bin/statusbar_ls ~/.local/bin/dwl ~/.config/fzf-nova ~/python_venv/bin ~/.local/share/gem/ruby/3.3.0/bin $path)
 export PATH
 
 #==== exports

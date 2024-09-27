@@ -50,9 +50,9 @@ export XDG_SESSION_TYPE="x11"
 #exec gnome-session
 
 #==== for i3
-export XDG_SESSION_DESKTOP="i3"
-export XDG_CURRENT_DESKTOP="i3"
-exec dbus-run-session i3 2>&1 | tee ~/.i3.log
+#export XDG_SESSION_DESKTOP="i3"
+#export XDG_CURRENT_DESKTOP="i3"
+#exec dbus-run-session i3 2>&1 | tee ~/.i3.log
 
 #==== for dwm
 #export XDG_SESSION_DESKTOP="dwm"
@@ -80,9 +80,9 @@ exec dbus-run-session i3 2>&1 | tee ~/.i3.log
 #exec dbus-run-session qtile start
 
 #==== for openbox
-#export XDG_SESSION_DESKTOP="openbox"
-#export XDG_CURRENT_DESKTOP="openbox"
-#exec dbus-run-session openbox-session 2>&1 | tee ~/.openbox.log
+export XDG_SESSION_DESKTOP="openbox"
+export XDG_CURRENT_DESKTOP="openbox"
+exec dbus-run-session openbox-session 2>&1 | tee ~/.openbox.log
 
 #==== for fluxbox
 #export XDG_SESSION_DESKTOP="fluxbox"

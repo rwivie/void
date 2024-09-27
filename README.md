@@ -1,6 +1,6 @@
 # voidlinux dotfiles
 
-#### swayfx
+## swayfx
 
 ![Screenshot](screenshot.png?raw=true)
 

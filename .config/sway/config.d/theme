@@ -1,10 +1,10 @@
 #==== gaps
 smart_gaps off
-gaps inner 10
-gaps outer 5
+gaps inner 4
+gaps outer 3
 
 #==== border
-default_border pixel 4
+default_border pixel 0
 smart_borders off
 
 #==== Default Font

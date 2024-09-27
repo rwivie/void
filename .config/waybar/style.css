@@ -15,7 +15,7 @@
 /* worked good enough for me. based on https://github.com/NorNub/HyprDots  edited by wickedlester*/
 
 * {
-  font: bold 14px "JetBrainsMono Nerd Font"; /* font weight, font size and font. propo nerd font for centered icons, symbols nerd font does not work great on bold text */
+  font: bold 12px "JetBrainsMono Nerd Font"; /* font weight, font size and font. propo nerd font for centered icons, symbols nerd font does not work great on bold text */
   color: #d8dee9; /* text color */
 }
 
@@ -33,34 +33,29 @@ tooltip {
  * modules (pills) section start
  * *****************************/
 #custom-launcher,
-#gamemode,
 #window,
 #workspaces,
 #mode,
-#tray,
-#pulseaudio,
-#custom-headset,
-#custom-xbps,
-#idle_inhibitor,
-#custom-weather,
+#custom-scratch,
 #custom-wttrbar,
 #clock,
+#custom-xbps,
 #memory,
 #cpu,
 #mpd,
-#custom-power,
-#custom-power,
+#pulseaudio,
+#tray,
 #custom-power1,
 #custom-quit,
 #custom-lock,
 #custom-reboot,
 #custom-shutdown,
-#custom-sleep,
-#cava {
+#custom-sleep {
   text-shadow: 1px 1px 2px black; /* text shadow, offset-x | offset-y | blur-radius | color */
   background: #242841; /* background color */
-  margin: 10px 4px 4px 4px; /* empty spaces around */
-  padding: 4px 10px; /* extend pill size, vertical then horizontal */
+  /* top, right, bottom, left */
+  margin: 4px 4px 4px 4px; /* empty spaces around */
+  padding: 4px 4px; /* extend pill size, vertical then horizontal */
   box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.4); /* pill background shadows */
   border-radius: 5px; /* rounded corners */
 }
@@ -69,29 +64,20 @@ tooltip {
  * value from ~/.config/hypr/hyprland.conf
  * gaps_out (8px) + border size (2px) = 10px */
 
+@keyframes blink-update {
+	to {
+		background-color: #d08770;
+	}
+}
+
 #custom-launcher {
     color: #a3be8c;
     font-size:15px;
 }
 
-#clock {
-  margin-right: 10px;
-}
-
-#custom-xbps {
-    padding-right: 5px;
-    color: #ebcb8b;
-}
-
-/*#custom-pacman {
-    padding-right: 15px;
-    color: #dbbc7f;
-}*/
-
-@keyframes blink-update {
-	to {
-		background-color: #e69875;
-	}
+#window {
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 #workspaces {
@@ -105,10 +91,6 @@ tooltip {
   transition-duration: .1s;
 }
 
-/*#workspaces button.active {
-  color: #a6adc8;
-}*/
-
 #workspaces button.focused {
     /*color: #a6e3a1;*/
     background-color: #3b4252;
@@ -119,11 +101,18 @@ tooltip {
   background-color: #4c566a; 
 }
 
-#idle_inhibitor.activated {   
-    color: #d08770;
+#custom-scratch {
+	color: #d08770;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
-#idle_inhibitor.deactivated { 
+#clock {
+  margin-right: 10px;
+}
+
+#custom-xbps {
+    padding-right: 5px;
     color: #ebcb8b;
 }
 
@@ -148,14 +137,27 @@ tooltip {
     color: #b48ead;
 }
 
-#custom-headset {
-    padding-right: 20px;
-    color: #dbbc7f;
-}
-
 #custom-power1 {
   color: #bf616a;
   padding-right: 13px;
 }
 
+#custom-quit {
+	color: #b48ead;
+}
 
+#custom-lock {
+	color: #d08770;
+}
+
+#custom-sleep {
+	color: #ebcb8b;
+}
+
+#custom-reboot {
+	color:#81a1c1;
+}
+
+#custom-shutdown {
+	color: #bf616a;
+}
