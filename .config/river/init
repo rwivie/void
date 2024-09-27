@@ -1,0 +1,283 @@
+#!/bin/sh
+
+#============================
+#==== Artix river config ====
+#============================
+
+mod="Mod4"
+
+#==== start some shit
+riverctl spawn "kanshi"
+riverctl spawn "swaybg -i /home/ron/Wallpaper/void_nordic_1.png"
+riverctl spawn "swayidle_start.sh"
+riverctl spawn "pipewire"
+riverctl spawn "numlockw on"
+riverctl spawn "dbus-update-activation-environment SEATD_SOCK DISPLAY WAYLAND _DISPLAY XDG_CURRENT_DESKTOP=river"
+riverctl spawn "dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=river"
+riverctl spawn "gnome-keyring-daemon --start --components=secrets"
+riverctl spawn '/usr/libexec/polkit-gnome-authentication-agent-1'
+#riverctl spawn "waybar --config=/home/ron/.config/river/waybar/config --style=/home/ron/.config/river/waybar/style.css"
+riverctl spawn 'sleep 2 && yambar -c /home/ron/.config/yambar/config.yml -l always'
+riverctl spawn "dunst -conf /home/ron/.config/dunst/dunstrc_river"
+riverctl spawn "mpd"
+riverctl spawn "rto.sh"
+#riverctl spawn "nm-applet"
+#riverctl spawn "blueman-applet"
+#riverctl spawn "firewall-applet"
+riverctl spawn "mpdris2-rs"
+#riverctl spawn "valent --gapplication-service"
+riverctl spawn "valent"
+riverctl spawn "thunderbird"
+
+#==================
+#==== Bindings ====
+#==================
+
+# $mod+Shift+Return to start an instance of foot (https://codeberg.org/dnkl/foot)
+riverctl map normal $mod+Shift Return spawn foot
+
+# $mod+Q to close the focused view
+riverctl map normal $mod+Shift Q close
+
+# $mod+Shift+E to exit river
+riverctl map normal $mod+Shift E exit
+
+# Focus follows mouse
+riverctl focus-follows-cursor normal
+
+# Atatch new windows at the bottom of the stack
+riverctl attach-mode bottom
+
+#==== Take a screenshot now
+riverctl map normal None Print spawn 'screenshot2 --now'
+
+#=== Take a screenshot in 5 seconds
+riverctl map normal Super Print spawn 'screenshot2 --in5'
+
+#=== Take a screenshot of a window
+riverctl map normal Super+Shift Print spawn 'screenshot2 --win'
+
+#==== take a screnshot of a region
+riverctl map normal Super+Control Print spawn 'screenshot2 --area'
+
+#==== scratchpad
+# The scratchpad will live on an unused tag. Which tags are used depends on your
+# config, but rivers default uses the first 9 tags.
+scratch_tag=$((1 << 20))
+
+# Toggle the scratchpad with Super+S
+riverctl map normal Super S toggle-focused-tags ${scratch_tag}
+
+# Send windows to the scratchpad with Super+Shift+P
+riverctl map normal Super+Shift S set-view-tags ${scratch_tag}
+
+# Set spawn tagmask to ensure new windows don't have the scratchpad tag unless
+# explicitly set.
+all_but_scratch_tag=$((((1 << 32) - 1) ^ $scratch_tag))
+riverctl spawn-tagmask ${all_but_scratch_tag}
+
+#==== menu stuff
+riverctl map normal $mod D spawn "wofi --conf /home/ron/.config/river/wofi/config"
+riverctl map normal $mod X spawn "powermenu.sh"
+riverctl map normal $mod P spawn "wmenu-run -b -f 'JetBrainsMono Nerd Font 14' -p run-shit -M 89B4FA -m 1E1E2E -N 1E1E2ED0 -n CBA6F7 -S 89B4FA -s 1E1E2E"
+
+#==== toggle waybar
+riverctl map normal $mod T spawn "toggle_waybar.sh"
+#riverctl map normal $mod T spawn "pkill -SIGUSR1 '^waybar$'"
+riverctl map normal $mod+Alt T spawn "pkill -SIGUSR1 '^waybar$'"
+#riverctl map normal $mod+Shift T spwan "waybar --config=/home/ron/.config/river/waybar/config --style=/home/ron/.config/river/waybar/style.css"
+
+#==== movement
+
+# $mod+J and $mod+K to focus the next/previous view in the layout stack
+riverctl map normal $mod J focus-view next
+riverctl map normal $mod K focus-view previous
+
+# $mod+Shift+J and $mod+Shift+K to swap the focused view with the next/previous
+# view in the layout stack
+riverctl map normal $mod+Shift J swap next
+riverctl map normal $mod+Shift K swap previous
+
+# $mod+Period and $mod+Comma to focus the next/previous output
+riverctl map normal $mod Period focus-output next
+riverctl map normal $mod Comma focus-output previous
+
+# $mod+Shift+{Period,Comma} to send the focused view to the next/previous output
+riverctl map normal $mod+Shift Period send-to-output next
+riverctl map normal $mod+Shift Comma send-to-output previous
+
+# $mod+Return to bump the focused view to the top of the layout stack
+riverctl map normal $mod Return zoom
+
+#=============================
+#==== rivercarro bindings ====
+#=============================
+
+# Mod+H and Mod+L to decrease/increase the main ratio of rivercarro
+riverctl map normal $mod H send-layout-cmd rivercarro "main-ratio -0.05"
+riverctl map normal $mod L send-layout-cmd rivercarro "main-ratio +0.05"
+
+# Mod+Shift+H and Mod+Shift+L to increment/decrement the main count of rivercarro
+riverctl map normal $mod+Shift H send-layout-cmd rivercarro "main-count +1"
+riverctl map normal $mod+Shift L send-layout-cmd rivercarro "main-count -1"
+
+# Mod+{Up,Right,Down,Left} to change layout orientation
+riverctl map normal $mod Up send-layout-cmd rivercarro "main-location top"
+riverctl map normal $mod Right send-layout-cmd rivercarro "main-location right"
+riverctl map normal $mod Down send-layout-cmd rivercarro "main-location bottom"
+riverctl map normal $mod Left send-layout-cmd rivercarro "main-location left"
+# And for monocle
+riverctl map normal $mod M send-layout-cmd rivercarro "main-location monocle"
+# Cycle through layout
+riverctl map normal $mod W send-layout-cmd rivercarro "main-location-cycle left,monocle"
+
+# Add others rivercarro's commands the same way with the keybinds you'd like.
+# e.g.
+riverctl map normal $mod+Shift I send-layout-cmd rivercarro "inner-gaps -1"
+riverctl map normal $mod+Control I send-layout-cmd rivercarro "inner-gaps +1"
+riverctl map normal $mod+Shift O send-layout-cmd rivercarro "outer-gaps -1"
+riverctl map normal $mod+Control O send-layout-cmd rivercarro "outer-gaps +1"
+riverctl map normal $mod+Shift W send-layout-cmd rivercarro "width-ratio -0.1"
+riverctl map normal $mod+Control W send-layout-cmd rivercarro "width-ratio +0.1"
+
+#========================
+
+#==== riverwm-utils
+riverctl map normal Mod1 Up spawn "cycle-focused-tags +1 9"
+riverctl map normal Mod1 Down spawn "cycle-focused-tags -1 9"
+
+# $mod+Alt+{H,J,K,L} to move views
+riverctl map normal $mod+Alt H move left 100
+riverctl map normal $mod+Alt J move down 100
+riverctl map normal $mod+Alt K move up 100
+riverctl map normal $mod+Alt L move right 100
+
+# $mod+Alt+Control+{H,J,K,L} to snap views to screen edges
+riverctl map normal $mod+Alt+Control H snap left
+riverctl map normal $mod+Alt+Control J snap down
+riverctl map normal $mod+Alt+Control K snap up
+riverctl map normal $mod+Alt+Control L snap right
+
+# $mod+Alt+Shift+{H,J,K,L} to resize views
+riverctl map normal $mod+Alt+Shift H resize horizontal -100
+riverctl map normal $mod+Alt+Shift J resize vertical 100
+riverctl map normal $mod+Alt+Shift K resize vertical -100
+riverctl map normal $mod+Alt+Shift L resize horizontal 100
+
+# $mod + Left Mouse Button to move views
+riverctl map-pointer normal $mod BTN_LEFT move-view
+
+# $mod + Right Mouse Button to resize views
+riverctl map-pointer normal $mod BTN_RIGHT resize-view
+
+# $mod + Middle Mouse Button to toggle float
+riverctl map-pointer normal $mod BTN_MIDDLE toggle-float
+
+for i in $(seq 1 9); do
+  tags=$((1 << ($i - 1)))
+
+  # $mod+[1-9] to focus tag [0-8]
+  riverctl map normal $mod $i set-focused-tags $tags
+
+  # $mod+Shift+[1-9] to tag focused view with tag [0-8]
+  riverctl map normal $mod+Shift $i set-view-tags $tags
+
+  # $mod+Control+[1-9] to toggle focus of tag [0-8]
+  riverctl map normal $mod+Control $i toggle-focused-tags $tags
+
+  # $mod+Shift+Control+[1-9] to toggle tag [0-8] of focused view
+  riverctl map normal $mod+Shift+Control $i toggle-view-tags $tags
+done
+
+# $mod+0 to focus all tags
+# $mod+Shift+0 to tag focused view with all tags
+all_tags=$(((1 << 32) - 1))
+riverctl map normal $mod 0 set-focused-tags $all_tags
+riverctl map normal $mod+Shift 0 set-view-tags $all_tags
+
+# $mod+Space to toggle float
+riverctl map normal $mod Space toggle-float
+
+# $mod+F to toggle fullscreen
+riverctl map normal $mod F toggle-fullscreen
+
+# Declare a passthrough mode. This mode has only a single mapping to return to
+# normal mode. This makes it useful for testing a nested wayland compositor
+riverctl declare-mode passthrough
+
+# $mod+F11 to enter passthrough mode
+riverctl map normal $mod F11 enter-mode passthrough
+
+# $mod+F11 to return to normal mode
+riverctl map passthrough $mod F11 enter-mode normal
+
+# Various media key mapping examples for both normal and locked mode which do
+# not have a modifier
+for mode in normal locked; do
+  # Eject the optical drive (well if you still have one that is)
+  riverctl map $mode None XF86Eject spawn 'eject -T'
+
+  # Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
+  riverctl map $mode None XF86AudioRaiseVolume spawn 'i3-volume -nPpC up 5'
+  riverctl map $mode None XF86AudioLowerVolume spawn 'i3-volume -nPpC down 5'
+  riverctl map $mode None XF86AudioMute spawn 'i3-volume -n mute'
+
+  # Control MPRIS aware media players with playerctl (https://github.com/altdesktop/playerctl)
+  riverctl map $mode None XF86Tools spawn 'foot ncmpcpp'
+  riverctl map $mode None XF86AudioPlay spawn 'mpc toggle'
+  riverctl map $mode None XF86AudioPrev spawn 'mpc prev'
+  riverctl map $mode None XF86AudioNext spawn 'mpc next'
+
+  # Control screen backlight brightness with brightnessctl (https://github.com/Hummer12007/brightnessctl)
+  riverctl map $mode None XF86MonBrightnessUp spawn 'brightnessctl set +5%'
+  riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl set 5%-'
+done
+
+# Set background and border color
+riverctl background-color 0x1e1e2e
+riverctl border-color-focused 0xa3be8c
+riverctl border-color-unfocused 0x869c79
+
+# Set keyboard repeat rate
+riverctl set-repeat 50 300
+
+# Make all views with an app-id that starts with "float" and title "foo" start floating.
+#riverctl rule-add -app-id 'float*' -title 'foo' float
+
+# Make all views with app-id "bar" and any title use client-side decorations
+#riverctl rule-add -app-id "bar" csd
+
+#riverctl rule-add -app-id "mousepad" ssd
+#riverctl rule-add -app-id "thunar" ssd
+#riverctl rule-add -app-id "firefox" ssd
+riverctl rule-add ssd
+
+#==== float rules
+riverctl rule-add -app-id "foot" -title "calcurse" float
+riverctl rule-add -app-id "dropdown" float
+riverctl rule-add -app-id "org.gnome.Calculator" float
+riverctl rule-add -app-id "gcolor3" float
+riverctl rule-add -app-id "Gimp-2.10" -title "Change Foreground Color" float
+riverctl rule-add -app-id "Gimp-2.10" -title "New Layer" float
+riverctl rule-add -app-id "Gimp-2.10" -title "Background Color" float
+riverctl rule-add -app-id "Gimp-2.10" -title "Quit GIMP" float
+
+#==== set tag rules
+riverctl rule-add -app-id "Firefox" tags 2
+riverctl rule-add -app-id "thunar" tags 4
+riverctl rule-add -app-id "mousepad" tags 8
+riverctl rule-add -app-id "Gimp-2.10" tags 16
+riverctl rule-add -app-id "vesktop" tags 128
+riverctl rule-add -app-id "org.telegram.desktop" tags 128
+riverctl rule-add -app-id "Thunderbird" tags 256
+riverctl rule-add -app-id "valent" tags 512
+
+#=================
+#==== layouts ====
+#=================
+
+#==== rivercarro
+## Set the default layout generator to be rivercarro and start it.
+## River will send the process group of the init executable SIGTERM on exit.
+riverctl default-layout rivercarro
+rivercarro -outer-gaps 6 -per-tag &

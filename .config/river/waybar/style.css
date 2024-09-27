@@ -1,0 +1,188 @@
+* {
+	font-family: "Ubuntu Nerd Font", "monospace";
+	font-size: 12px;
+}
+
+window#waybar {
+	 /*background: #1e1e2e;*/
+	background: rgba(36, 40, 65, 1.0);
+	border-bottom: 2px solid #a3be8c;
+	color: #d8dee9;
+}
+
+tooltip {
+	background: #242841; /* tooltip background */
+	border: 2px solid #a3be8c; /* tooltip border size and color */
+	border-radius: 5px; /* tooltip rounded corners */
+}
+
+#custom-launcher,
+#mode,
+#tags,
+#mpd,
+#memory,
+#cpu,
+#pulseaudio,
+#custom-wttrbar,
+#clock,
+#custom-xbps,
+#idle_inhibitor,
+#tray,
+#custom-power1,
+#custom-quit,
+#custom-lock,
+#custom-reboot,
+#custom-shutdown,
+#custom-sleep {
+	padding: 0 0px;
+	/* top, right, bottom, left */
+	margin: 4px 10px 4px 10px; 
+}
+
+#custom-launcher {
+	color: #a6e3a1;
+	font-size:15px;
+	margin-left: 10px;
+}
+
+#mode {
+	color: #b48ead;
+}
+
+#tags {
+	padding: 0px;
+}
+
+#tags button {
+	color: #4c566a;
+	padding: 0px 4px; /* fit with pill padding, 0px for not having duped vertical padding, 4px to make a square (4px value from module padding: ...#clock {padding >>4px<< 10px}) */
+	border: 2px solid transparent; /* required by active workspace top color, or the bar will jitter */
+	transition-property: background-color, border-top-color; /* smooth transition for workspace module */
+	transition-duration: .1s;
+}
+    
+
+#tags button.occupied {
+	color: #b7bcc5;
+	background-color: #2e3440;
+	border-top-color: #b7bcc5;
+}
+    
+#tags button.focused {
+	color: #a3be8c;
+	background-color: #2e3440;
+	border-top-color: #a3be8c;
+}
+    
+#tags button:hover {
+	background: rgba(59, 66, 82, 0.40);
+	/* top,right,bottom,left*/
+	/*padding: 10px 0px 10px 0px;*/
+	color: #81a1c1;
+	border-top-color: #81a1c1;
+	font-size:15px;
+}
+
+#tags button.focused:hover {
+	background: rgba(59, 66, 82, 0.40);
+	/* top,right,bottom,left*/
+	/*padding: 10px 0px 10px 0px;*/
+	color: #81a1c1;
+	font-size:15px;
+}
+
+#tags button.urgent {
+	color: #bf616a;
+	background-color: #2e3440;
+	border-top-color: #bf616a;
+}
+
+#layout {
+	padding: 0px;
+}
+
+#layout.focused {
+	color: #d08770;
+	margin: 2px 6px 2px 6px;
+	padding: 2px 6px 2px 6px;
+	background-color: #434c5e;
+	border: 2px solid transparent;
+	transition-property: background-color, border-top-color; /* smooth transition for workspace module */
+	transition-duration: .1s;
+	border-radius: 5px;	
+}
+
+#window {
+	/*background: #313244;*/
+	border-radius: 4px;
+	padding: 2px 4px;
+}
+
+#clock {
+	color: #ebcb8b;
+	font-family: "Digital Readout Thick Upright";
+	font-size: 20px;
+	margin: 2px 6px 2px 6px;
+	padding: 2px 6px 2px 6px;
+	background-color: #4c566a;
+	border: 2px solid transparent;
+	transition-property: background-color, border-top-color; /* smooth transition for workspace module */
+	transition-duration: .1s;
+	border-radius: 5px;	
+}
+
+#custom-xbps {
+	padding-right: 5px;
+	color: #ebcb8b;
+}
+
+#mpd {
+	color: #b48ead;
+}
+
+#memory {
+	color: #5e81ac;
+}
+
+#cpu {
+	color: #d08770;
+	margin-right: 10px;
+}
+
+#pulseaudio {
+	color: #a3be8c;
+	/*padding-right: 15px;*/
+}
+
+#idle_inhibitor.activated {
+	color: #bf616a;    
+}
+
+#idle_inhibitor.deactivated {
+	color: #ebcb8b;    
+}
+
+#custom-power1 {
+	color: #bf616a;
+}
+
+
+#custom-quit {
+	color: #b48ead;
+}
+
+#custom-lock {
+	color: #d08770;
+}
+
+#custom-sleep {
+	color: #ebcb8b;
+}
+
+#custom-reboot {
+	color:#81a1c1;
+}
+
+#custom-shutdown {
+	color: #bf616a;
+}

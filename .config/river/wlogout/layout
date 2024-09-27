@@ -1,0 +1,23 @@
+{
+    "label" : "lock",
+    "action" : "lockit",
+    "text" : "Lock"
+}
+
+{
+    "label" : "logout",
+    "action" : "killall -u ron",
+    "text" : "Logout"
+}
+
+{
+    "label" : "shutdown",
+    "action" : "loginctl poweroff",
+    "text" : "Shutdown"
+}
+
+{
+    "label" : "reboot",
+    "action" : "loginctl reboot",
+    "text" : "Reboot"
+}

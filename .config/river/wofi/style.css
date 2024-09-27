@@ -1,0 +1,65 @@
+/*@define-color bg-hover #4c566a;
+@define-color theme_selected_bg_color #8fbcbb;*/
+
+window {
+margin: 0px;
+border: 4px solid #a3be8c;
+border-radius: 10px;
+/*background-color: #2e3440;*/
+background-color: rgba(36, 40, 65, 0.6);
+font-family: JetBrainsMono Nerd Font;
+font-size: 14px;
+}
+
+#input {
+margin: 5px;
+border: 1px solid #242841;
+color: #d8dee9;
+/*background-color: #2e3440;*/
+background-color: rgba(36, 40, 65, 0.6);
+}
+
+#input image {
+	color: #d8dee9;
+}
+
+#input:focus image {
+  color: #eceff4;
+}
+
+#inner-box {
+margin: 5px;
+border: none;
+/*background-color: #2e3440;*/
+background-color: rgba(36, 40, 65, 0.6);
+}
+
+#outer-box {
+margin: 5px;
+border: none;
+/*background-color: #2e3440;*/
+background-color: rgba(36, 40, 65, 0.6);
+}
+
+#scroll {
+margin: 0px;
+border: none;
+}
+
+#text {
+margin: 5px;
+border: none;
+color: #d8dee9;
+} 
+
+#entry:selected {
+	background-color: #434c5e;
+        background-image: #434c5e;
+	font-weight: normal;
+}
+
+#text:selected {
+	background-color: transparent;
+        color: #eceff4;
+	font-weight: normal;
+}

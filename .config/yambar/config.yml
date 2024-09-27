@@ -1,0 +1,271 @@
+# heavily modified from https://codeberg.org/JustineSmithies/river-dotfiles 
+# modified by wickedlester
+
+nerdfont: &nerdfont Symbols Nerd Font Mono:pixelsize=14
+jbmono: &jbmono JetBrainsMono Nerd Font:pixelsize=14
+focused: &focused
+  stack:
+    - { background: { color: 3b4252cc } }
+    - { underline: { size: 3, color: a3be8cff } }
+col-inv: &col-inv { foreground: 8a8f98ff }
+
+river_base: &river_base
+  margin: 10
+  text: "{id}"
+  on-click: sh -c "riverctl set-focused-tags $((1 << ({id} - 1)))"
+
+bar:
+  font: *jbmono
+  height: 26
+  location: top
+  left-margin: 10
+  right-spacing: 8
+  right-margin: 10
+  background: 2e3440ff
+  foreground: eceff4ff
+
+  left:
+    - label:
+        content:
+          - string:
+              on-click: "nwg-menu -va top -s menu-start-river.css -cmd-lock lockit -cmd-logout riverctl spawn pkill -TERM -u $USER -cmd-restart loginctl reboot -cmd-shutdown loginctl -i poweroff -term foot"
+              text: 
+              font: *nerdfont
+              foreground: a3be8cff
+    - river:
+        anchors:
+          - *river_base
+        title:
+          - string:
+              margin: 6
+              text: "{layout}"
+              foreground: d08770ff
+              deco:
+                background:
+                  color: 4c566acc
+              on-click:
+                left: sh -c "riverctl focus-view next"
+                right: sh -c "riverctl focus-view previous"
+                middle: sh -c "riverctl send-layout-cmd rivercarro 'main-location-cycle left,monocle'"
+                wheel-up: sh -c "riverctl spawn 'cycle-focused-tags +1 10'"
+                wheel-down: sh -c "riverctl spawn 'cycle-focused-tags -1 10'"
+
+          - string:
+              margin: 6
+              text: "{title}"
+              max: 50
+              foreground: d8dee9ff
+        content:
+          map:
+            conditions:
+              id >= 11: { string: { text: "" } }
+              state == focused:
+                string:
+                  <<: *river_base
+                  deco: *focused
+                  foreground: a3be8cff
+              state == urgent:
+                string:
+                  <<: *river_base
+                  foreground: bf616aff
+              state == unfocused:
+                string:
+                  <<: *river_base
+              state == invisible:
+                map:
+                  conditions:
+                    occupied:
+                      string:
+                        <<: *river_base
+                        deco:
+                          stack:
+                            - underline: { size: 3, color: 00000000 }
+                    ~occupied:
+                      map:
+                        deco: { background: { color: 00000000 } }
+                        default:
+                          empty: {}
+                        conditions:
+                          id == 1: { string: { <<: [*river_base, *col-inv] } }
+                          id == 2: { string: { <<: [*river_base, *col-inv] } }
+                          id == 3: { string: { <<: [*river_base, *col-inv] } }
+                          id == 4: { string: { <<: [*river_base, *col-inv] } }
+                          id == 5: { string: { <<: [*river_base, *col-inv] } }
+                          id == 6: { string: { <<: [*river_base, *col-inv] } }
+                          id == 7: { string: { <<: [*river_base, *col-inv] } }
+                          id == 8: { string: { <<: [*river_base, *col-inv] } }
+                          id == 9: { string: { <<: [*river_base, *col-inv] } }
+                          id == 10: { string: { <<: [*river_base, *col-inv] } }
+  center:
+    - script:
+        path: ~/.config/yambar/scripts/dater.sh
+        args: []
+        content:
+          string:
+            margin: 0
+            text: "{date}"
+            foreground: d09770ff
+            on-click:
+              left: sh -c "~/.config/yambar/scripts/calendar.sh show"
+              right: sh -c "foot -T calcurse calcurse"
+    - clock:
+        time-format: "%I:%M %P"
+        content:
+          - string:
+              margin: 0
+              text: "{time}"
+              foreground: d08770ff
+
+  right:
+    - mpd:
+        host: "127.0.0.1"
+        port: 6600
+        content:
+          string:
+            text: "{artist} -{title} [{state}]"
+            foreground: b48eadff
+            on-click:
+              left: mpc prev
+              middle: mpc toggle
+              right: mpc next
+    - script:
+        path: ~/.config/yambar/scripts/void-updates.sh
+        args: []
+        content:
+          string:
+            margin: 0
+            text: "{updates}"
+            font: *nerdfont
+            foreground: ebcb8bff
+            on-click: sh -c "~/.config/yambar/scripts/void-updates.sh update"
+    - cpu:
+        poll-interval: 2500
+        content:
+          map:
+            conditions:
+              id < 0:
+                - string:
+                    text: 
+                    font: *nerdfont
+                    foreground: 8fbcbbff
+                - string:
+                    text: " {cpu}%"
+                    foreground: 8fbcbbff
+    - mem:
+        poll-interval: 2500
+        content:
+          - string:
+              text: 
+              font: *nerdfont
+              foreground: a3be8cff
+          - string:
+              text: " {used:mb}MB/{total:mb}MB"
+              foreground: a3be8cff
+    - script:
+        path: ~/.config/yambar/scripts/idleinhibit.sh
+        args: []
+        content:
+          string:
+            margin: 0
+            text: "{idleinhibit}"
+            foreground: ebcb8bff
+            font: *nerdfont
+            on-click: sh -c "~/.config/yambar/scripts/idleinhibit.sh toggle"
+    - pipewire:
+        anchors:
+          volume: &volume
+            conditions:
+              muted:
+                string:
+                  text: "0%"
+                  foreground: 5e81acff
+                  on-click:
+                    middle: sh -c "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+              ~muted:
+                string:
+                  text: "{cubic_volume}%"
+                  foreground: 5e81acff
+                  on-click:
+                    left: sh -c "pactl set-sink-volume @DEFAULT_SINK@ -2%"
+                    middle: sh -c "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+                    right: sh -c "pactl set-sink-volume @DEFAULT_SINK@ +2%"
+        content:
+          list:
+            items:
+              - map:
+                  conditions:
+                    type == "sink":
+                      map:
+                        conditions:
+                          icon == "audio-headset-bluetooth":
+                            string:
+                              {
+                                text: "󰋋",
+                                font: *nerdfont,
+                                foreground: "5e81acff",
+                              }
+                          muted:
+                            string:
+                              text: "󰝟"
+                              font: *nerdfont
+                              foreground: "8a8f98ff"
+                          ~muted:
+                            - ramp:
+                                tag: cubic_volume
+                                items:
+                                  - string:
+                                      text: "󰕿"
+                                      font: *nerdfont
+                                      foreground: "88c0d0ff"
+                                  - string:
+                                      text: "󰖀"
+                                      font: *nerdfont
+                                      foreground: "81a1c1ff"
+                                  - string:
+                                      text: "󰕾"
+                                      font: *nerdfont
+                                      foreground: "5e81acff"
+                    type == "source":
+                      string:
+                        text: ""
+                        font: *nerdfont
+                        left-margin: 5
+                        foreground: "5e81acff"
+              - map:
+                  <<: *volume
+    - network:
+        content:
+          map:
+            conditions:
+              "name == enp7s0":
+                map:
+                  default:
+                    - string:
+                        { text: "󰲜", font: *nerdfont, foreground: "ffffffff" }
+                  conditions:
+                    "state == up":
+                      - string:
+                          text: "󰈀"
+                          font: *nerdfont
+                          foreground: "ffffffff"
+                          on-click:
+                            left: sh -c "networkmanager_dmenu"
+                            #right: sh -c "kitty nmcli device show"
+                    "state == down":
+                      - string:
+                          text: "󰲜"
+                          font: *nerdfont
+                          foreground: "ffffffff"
+    - label:
+        content:
+          - string:
+              on-click: blueman-manager
+              text: 󰂯
+              font: *nerdfont
+    - label:
+        content:
+          - string:
+              on-click: wlogout -l /home/ron/.config/river/wlogout/layout -c /home/ron/.config/river/wlogout/style.css -b 2 -T 200 -B 200
+              text: ⏻
+              font: *nerdfont
+              foreground: bf616aFF
